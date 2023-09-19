@@ -38,7 +38,7 @@ app.use(express.json());
   }
 
   // Start the Express app
-  app.listen(() => {
+  app.listen(4000,() => {
     console.log(`iBlog listening at ${BASE_URL}`);
   });
 })();
