@@ -1,46 +1,34 @@
-require('dotenv').config();
-
 const connectToMongo = require('./db');
-
 const express = require('express');
-const cors = require('cors'); // Import the cors module
-
-const BASE_URL = process.env.BASE_URL || 'http://localhost:4000'; // Provide a default URL
-const mon = process.env.mongoDBURI;
+const { json } = require('micro');
 
 const app = express();
 
-const corsConfig = {
-    origin: '*', // Allow all origins, you can specify specific origins here
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
-};
-
-app.use(cors(corsConfig));
-// Define your CORS configuration for specific routes if needed
-
-app.use(express.json());
-
-(async () => {
-  // Connect to MongoDB before starting the Express app
+app.use(async (req, res) => {
+  // Connect to MongoDB before handling requests
   await connectToMongo();
 
-  // Available routes
-  app.use('/api/auth', require('./routes/auth'));
-  app.use('/api/notes', require('./routes/notes'));
+  // Handle CORS headers if needed (replace '*' with your allowed origin)
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Remove duplicate root route definition
-  app.get('/', (req, res) => {
-    res.json('hello');
-  });
-
-  // For Heroku deployment
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
+  // Handle JSON requests
+  if (req.method === 'POST' || req.method === 'PUT') {
+    const body = await json(req);
+    req.body = body;
   }
 
-  // Start the Express app using the BASE_URL variable
-  app.listen(process.env.PORT || 4000, () => {
-    console.log(`iBlog listening at ${BASE_URL}`);
-  });
-})();
+  // Define your API routes here
+  if (req.url.startsWith('/api/auth')) {
+    require('./routes/auth')(req, res);
+  } else if (req.url.startsWith('/api/notes')) {
+    require('./routes/notes')(req, res);
+  } else {
+    // Handle other routes or send a default response
+    res.statusCode = 200;
+    res.end('Hello from Vercel Serverless Function!');
+  }
+});
+
+module.exports = app;
