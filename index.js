@@ -8,13 +8,13 @@ const mon = process.env.mongoDBURI;
 
 const app = express();
 
-var cors = require('cors');
 const corsConfig = {
-    origin: 'https://iblog-front.vercel.app',
+    origin: '',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
-  };
-  app.use(cors(corsConfig));
+}
+app.use(cors(corsConfig))
+app.options("", cors(corsConfig))
 app.use(express.json());
 
 (async () => {
