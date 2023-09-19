@@ -9,14 +9,12 @@ const mon = process.env.mongoDBURI;
 const app = express();
 
 var cors = require('cors');
-app.use(
-  cors({
-    origin: 'https://notes-sigma-ruddy.vercel.app/login',
-    methods: ['POST', 'GET'],
+const corsConfig = {
+    origin: 'https://iblog-front.vercel.app',
     credentials: true,
-  })
-);
-
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  };
+  app.use(cors(corsConfig));
 app.use(express.json());
 
 (async () => {
