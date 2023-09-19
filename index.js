@@ -2,6 +2,9 @@ const connectToMongo = require('./db');
 const express = require('express');
 const { json } = require('micro');
 
+require('dotenv').config();
+const BASE_URL = process.env.BASE_URL;
+
 const app = express();
 
 app.use(async (req, res) => {
@@ -9,7 +12,7 @@ app.use(async (req, res) => {
   await connectToMongo();
 
   // Handle CORS headers if needed (replace '*' with your allowed origin)
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'process.env.BASE_URL');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
