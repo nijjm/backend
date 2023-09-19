@@ -9,7 +9,7 @@ const mon = process.env.mongoDBURI;
 const app = express();
 
 const corsConfig = {
-    origin: '',
+    origin: 'https://fronend-omega.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }
