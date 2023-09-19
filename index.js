@@ -1,17 +1,4 @@
-// const connectToMongo = require('./db');
-// const express = require('express')
-// connectToMongo();
-// const app = express()
-// const port = 3000
-// app.get('/', (req, res) => 
-//     res.send('Hello nij')
-// )
 
-// app.listen(port, () => {
-//     console.log(`Example app listening at http://localhost:${port}`)
-// })
-
-// db.js
 require('dotenv').config();
 
 const connectToMongo= require('./db');
@@ -28,7 +15,7 @@ const port = 5000;
 
 var cors = require('cors')
 app.use(cors({
-    origin: '',
+    origin: 'https://notes-sigma-ruddy.vercel.app/login',
     methods: ['POST', 'GET'],
     credentials: true
 }))
