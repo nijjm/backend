@@ -7,11 +7,11 @@ const connectToMongo= require('./db');
 const express = require('express');
 // const connectToMongo = require('./db');
 
-const BASE_URL = process.env.BASE_URL||500;
+const BASE_URL = process.env.BASE_URL||4000;
 const mon= process.env.mongoDBURI
 
 const app = express();
-const port = 5000;
+const port = 400;
 
 var cors = require('cors')
 app.use(cors({
